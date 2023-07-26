@@ -1,6 +1,20 @@
+
+
 const express = require('express');
 
 const app = express();
+
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb+srv://sosoManimal@cluster0.r62xbdt.mongodb.net//test?retryWrites=true&w=majority',
+  { useNewUrlParser: true,
+    useUnifiedTopology: true })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+
+
+app.use(express.json());
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -9,9 +23,20 @@ app.use((req, res, next) => {
     next();
   });
 
+  app.post('/api/Hot_Takes', (req, res, next) => {
+    console.log(req.body);
+    res.status(201).json({
+      message: 'sauce créé !'
+    });
+  });
 
 
-app.use('/api/Hot_Takes', (req, res, next) => {
+
+
+
+
+
+app.get('/api/Hot_Takes', (req, res, next) => {
     const Hot_Takes = [
       {
         _id: 'oeihfzeoi',
