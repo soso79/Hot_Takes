@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 
   app.use(bodyParser.json());
 
-  app.post('/api/Hot_Takes', (req, res, next) => {
+  app.post('/api/hot-takes', (req, res, next) => {
     delete req.body._id;
     const sauce = new Sauce({
       ...req.body
@@ -37,7 +37,7 @@ app.use((req, res, next) => {
       .then(() => res.status(201).json({ message: 'Sauce enregistrée !'}))
       .catch(error => res.status(400).json({ error }));
   });
-  app.get('/api/Hot_takes/:id', (req, res, next) => {
+  app.get('/api/hot-takes/:id', (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
       .then(sauce => res.status(200).json(sauce))
       .catch(error => res.status(404).json({ error }));
@@ -45,7 +45,7 @@ app.use((req, res, next) => {
 
 
 
-  app.get('/api/Hot_takes', (req, res, next) => {
+  app.get('/api/hot-takes', (req, res, next) => {
     Sauce.find()
       .then(sauces => res.status(200).json(sauces))
       .catch(error => res.status(400).json({ error }));
