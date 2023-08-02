@@ -1,11 +1,10 @@
 
 
 const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const stuffRoutes = require('./routes/stuff');
 
 
-const Sauce = require('./models/sauce');
 
 
 
@@ -17,7 +16,7 @@ mongoose.connect('mongodb+srv://soso:Manimal@cluster0.r62xbdt.mongodb.net/test?r
 
 const app = express();
 
-app.use(express.json());
+/*app.use(express.json());*/
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -26,30 +25,10 @@ app.use((req, res, next) => {
     next();
   });
 
-  app.use(bodyParser.json());
+  
 
-  app.post('/api/hot-takes', (req, res, next) => {
-    delete req.body._id;
-    const sauce = new Sauce({
-      ...req.body
-    });
-    sauce.save()
-      .then(() => res.status(201).json({ message: 'Sauce enregistrée !'}))
-      .catch(error => res.status(400).json({ error }));
-  });
-  app.get('/api/hot-takes/:id', (req, res, next) => {
-    Sauce.findOne({ _id: req.params.id })
-      .then(sauce => res.status(200).json(sauce))
-      .catch(error => res.status(404).json({ error }));
-  });
+  app.use('/api/hot-takes',stuffRoutes);
 
-
-
-  app.get('/api/hot-takes', (req, res, next) => {
-    Sauce.find()
-      .then(sauces => res.status(200).json(sauces))
-      .catch(error => res.status(400).json({ error }));
-  });
 
 
 
