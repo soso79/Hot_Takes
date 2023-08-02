@@ -1,47 +1,23 @@
-const express = require('express');
+const express = require("express");
+
+// création d'un router express
 const router = express.Router();
-const Sauce = require('../models/sauce');
 
-router.post('/', (req, res, next) => {
-    delete req.body._id;
-    const sauce = new Sauce({
-      ...req.body
-    });
-    sauce.save()
-      .then(() => res.status(201).json({ message: 'Sauce enregistrée !'}))
-      .catch(error => res.status(400).json({ error }));
-  });
+// appel du middleware d'authentification
+const auth = require("../middleware/auth");
 
-  router.put('/:id', (req, res, next) => {
-    Sauce.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
-      .then(() => res.status(200).json({ message: 'Sauce modifiée !'}))
-      .catch(error => res.status(400).json({ error }));
-  });
+// appel du middleware de multer
+const multer = require("../middleware/multer-config");
 
-  router.delete('/:id', (req, res, next) => {
-    Sauce.deleteOne({ _id: req.params.id })
-      .then(() => res.status(200).json({ message: 'Sauce supprimée !'}))
-      .catch(error => res.status(400).json({ error }));
-  });
+// appel des controllers (logique métier)
+const sauceCtrl = require("../controllers/sauce");
 
-
-
-
-  router.get('/:id', (req, res, next) => {
-    Sauce.findOne({ _id: req.params.id })
-      .then(sauce => res.status(200).json(sauce))
-      .catch(error => res.status(404).json({ error }));
-  });
-
-
-
-  router.get('/', (req, res, next) => {
-    Sauce.find()
-      .then(sauces => res.status(200).json(sauces))
-      .catch(error => res.status(400).json({ error }));
-  });
-
-
-
+// enregistrement des routes dans le router (logique de routing)  // attention a l'ordre des middlware, authentification avant toute autre requête
+router.get("/", auth, sauceCtrl.getAllSauces);
+router.get("/:id", auth, sauceCtrl.getOneSauce);
+router.post("/", auth, multer, sauceCtrl.createSauce);
+router.put("/:id", auth, multer, sauceCtrl.modifySauce);
+router.delete("/:id", auth, sauceCtrl.deleteSauce);
+router.post("/:id/like", auth, sauceCtrl.likeSauce);
 
 module.exports = router;
