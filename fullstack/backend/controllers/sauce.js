@@ -41,9 +41,9 @@ exports.createSauce = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-//------------------------------------------------------
-// modifier une sauce
-//------------------------------------------------------
+
+/* modifier une sauce*/
+
 exports.modifySauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id }).then((sauce) => {
     const filename = sauce.imageUrl.split("/images/")[1];
@@ -57,10 +57,10 @@ exports.modifySauce = (req, res, next) => {
               console.log("l'ancienne image a bien été supprimé");
             }
           }),
-          // s'il existe on traite la nouvelle image
+          
           ...JSON.parse(req.body.sauce),
           imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
-        } /* sinon on traite l'objet entrant*/
+        } 
       : { ...req.body };
     Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
       .then(() => res.status(200).json({ message: "Objet modifié !" }))
@@ -68,18 +68,18 @@ exports.modifySauce = (req, res, next) => {
   });
 };
 
-//------------------------------------------------------
-// supprimer une sauce
-//------------------------------------------------------
+
+/*supprimer une sauce*/
+
 exports.deleteSauce = (req, res, next) => {
-  // recherche de l'objet correspondant dans la base de données avec l'id reçue en parametre
+  
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
       // récupération du filename
       const filename = sauce.imageUrl.split("/images/")[1];
-      // suppression de l'image dans le dossier avec la methode unlink de de fs
+    
       fs.unlink(`images/${filename}`, () => {
-        // suppression du thing
+        
         Sauce.deleteOne({ _id: req.params.id })
           .then(() => res.status(200).json({ message: "Objet supprimé !" }))
           .catch((error) => res.status(400).json({ error }));
@@ -88,9 +88,9 @@ exports.deleteSauce = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-//------------------------------------------------------
-// liker une sauce
-//------------------------------------------------------
+
+/* liker une sauce*/
+
 exports.likeSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id }).then((sauce) => {
     let message;

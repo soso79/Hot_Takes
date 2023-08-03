@@ -21,12 +21,12 @@ const path = require("path");
 // importation du package mongoose
 const mongoose = require("mongoose");
 
-// connection au cluster mongoDB
 mongoose.connect('mongodb+srv://soso:Manimal@cluster0.r62xbdt.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
+
 
 // ------------------------------------- //
 // middleware
