@@ -25,8 +25,12 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
   next();
 });
-
-app.use(helmet());
+/* parametrage qui permet l upload de fichiers(images ou autres)*/
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
 
 app.use(bodyParser.json());
 
