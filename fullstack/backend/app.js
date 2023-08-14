@@ -1,5 +1,5 @@
 
-const dotenv = require("dotenv").config();
+
 const express = require("express");
 const app = express();
 const helmet = require("helmet");
@@ -9,8 +9,15 @@ const userRoutes = require("./routes/user");
 const path = require("path");
 const mongoose = require("mongoose");
 
-mongoose.connect('mongodb+srv://soso:Manimal@cluster0.r62xbdt.mongodb.net/?retryWrites=true&w=majority',
-  { useNewUrlParser: true,
+const dotenv = require("dotenv").config();
+dotenv.config();
+const MONGO_USERNAME = process.env.MONGO_USERNAME;
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
+const MONGO_CLUSTER = process.env.MONGO_CLUSTER;
+
+// Connection à la base de données MongoDB
+mongoose.connect((`mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}${MONGO_CLUSTER}.mongodb.net/?retryWrites=true&w=majority`),
+    { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
