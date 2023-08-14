@@ -1,4 +1,4 @@
-HOT TAKES backend
+HOT TAKES 
 backend de l'application hot-takes, ajout , suppression, et modification  de sauces piquantes, et possibilités de noter les sauces suivant nos goûts
 Utilisation de l’application en local
 
