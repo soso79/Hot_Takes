@@ -16,7 +16,6 @@ Suivez les instructions
 
 4.Dépendances a installer
 bcrypt
-body-parser
 crypto-js
 dotenv
 express
@@ -32,7 +31,7 @@ Etapes :
 
 2. lancer le backend avec la commande nodemon server
 
-3.lancer l api en tapant /localhost:4200
+3.lancer l api en tapant /localhost:4200 dans le navigateur
 
 4. créer un compte mongoDB 
 a.créer une base de données
